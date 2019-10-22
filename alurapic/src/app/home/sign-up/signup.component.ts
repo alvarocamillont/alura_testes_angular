@@ -1,4 +1,3 @@
-import { userNamePasswordValidator } from './username-password.validator';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -8,6 +7,7 @@ import { PlatformDetectorService } from './../../core/platform-detector/platform
 import { NewUser } from './new-user';
 import { SignUpService } from './signup.service';
 import { UserNotTakenValidatorService } from './user-not-taken.validator.service';
+import { userNamePasswordValidator } from './username-password.validator';
 
 @Component({
   templateUrl: './signup.component.html',
@@ -15,7 +15,9 @@ import { UserNotTakenValidatorService } from './user-not-taken.validator.service
 })
 export class SignUpComponent implements OnInit {
   signupForm: FormGroup;
-  @ViewChild('inputEmail') inputEmail: ElementRef<HTMLInputElement>;
+  @ViewChild('inputEmail', { static: true }) inputEmail: ElementRef<
+    HTMLInputElement
+  >;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -70,7 +72,7 @@ export class SignUpComponent implements OnInit {
       const newUser = this.signupForm.getRawValue() as NewUser;
       this.signUpService.signup(newUser).subscribe(
         () => this.router.navigate(['']),
-        err => {
+        (err) => {
           console.log(err);
         }
       );
