@@ -1,5 +1,6 @@
-import { Photo } from './../../photo/photo.model';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+
+import { Photo } from './../../photo/photo.model';
 
 @Component({
   selector: 'app-photos',
@@ -15,8 +16,11 @@ export class PhotosComponent implements OnChanges {
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.photos) {
+    if (changes.photos && Array.isArray(changes.photos)) {
       this.rows = this.groupColumns(this.photos);
+    } else {
+      this.photos = [];
+      this.rows = [];
     }
   }
 
