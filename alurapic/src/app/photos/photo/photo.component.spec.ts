@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { PhotoComponent } from './photo.component';
 
@@ -8,9 +9,9 @@ describe('PhotoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PhotoComponent ]
-    })
-    .compileComponents();
+      imports: [RouterTestingModule.withRoutes([])],
+      declarations: [PhotoComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
