@@ -21,23 +21,7 @@ module.exports = function(config) {
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../coverage'),
       reports: ['html', 'lcovonly', 'text-summary'],
-      fixWebpackSourcePaths: true,
-      thresholds: {
-        emitWarning: false, // set to 'true' to not fail the test command when thresholds are not met
-        global: {
-          statements: 98,
-          branches: 98,
-          functions: 98,
-          lines: 98
-        },
-        each: {
-          statements: 80,
-          branches: 80,
-          lines: 80,
-          functions: 80,
-          overrides: {}
-        }
-      }
+      fixWebpackSourcePaths: true
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
