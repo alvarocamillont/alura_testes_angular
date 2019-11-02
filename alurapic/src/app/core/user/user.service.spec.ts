@@ -1,10 +1,13 @@
 import { inject, TestBed } from '@angular/core/testing';
 
 import { TokenService } from '../token/token.service';
+import { User } from './user';
 import { UserService } from './user.service';
 
+const TOKEN =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImZsYXZpbyIsImVtYWlsIjoiZmxhdmlvQGFsdXJhcGljLmNvbS5iciIsImlhdCI6MTU3MjY2ODg4NSwiZXhwIjoxNTcyNzU1Mjg1fQ.kzPLFizMUFd4HLmK3gZVEQPACoz3ENjCBD9V5xxbOZI';
 class MockTokenService {
-  token = '';
+  token = TOKEN;
 
   hasToken() {
     return !!this.getToken();
@@ -23,7 +26,7 @@ class MockTokenService {
   }
 }
 
-fdescribe('O serviço UserService', () => {
+describe('O serviço UserService', () => {
   let userService: UserService;
   let tokenService: TokenService;
 
@@ -47,11 +50,23 @@ fdescribe('O serviço UserService', () => {
     expect(service).toBeTruthy();
   }));
 
-  xit('deve guardar um token', () => {
-    const fakeToken = 'teste';
-    tokenService.setToken(fakeToken);
-    expect(tokenService.hasToken()).toBeTruthy();
-    expect(tokenService.getToken()).toBe(fakeToken);
+  it('deve guardar um token', () => {
+    const fakeToken = TOKEN;
+    userService.setToken(fakeToken);
+    expect(userService.isLogged()).toBeTruthy();
+    expect(userService.getUserName()).toBe('flavio');
+    userService.getUser().subscribe((user: User) => {
+      expect(user.name).toBe('flavio');
+    });
+  });
+
+  it('deve limpar as informações no logout', () => {
+    userService.logout();
+    expect(userService.isLogged()).toBeFalsy();
+    expect(userService.getUserName()).toBe('');
+    userService.getUser().subscribe((user: User) => {
+      expect(user).toBeNull();
+    });
   });
 
   afterEach(() => {
