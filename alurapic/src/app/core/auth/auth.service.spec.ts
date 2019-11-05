@@ -1,49 +1,40 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 
-describe('O serviço UserService', () => {
+import { UserService } from '../user/user.service';
+import { AuthService } from './auth.service';
+
+describe('O serviço AuthService', () => {
+  let authService: AuthService;
+  let httpMock: HttpTestingController;
   let userService: UserService;
-  let tokenService: TokenService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        UserService,
-        {
-          provide: TokenService,
-          useClass: MockTokenService
-        }
-      ]
+      imports: [HttpClientTestingModule],
+      providers: [AuthService, UserService]
     });
 
-    tokenService = TestBed.get(TokenService);
+    authService = TestBed.get(AuthService);
+    httpMock = TestBed.get(HttpTestingController);
     userService = TestBed.get(UserService);
   });
 
-  it('de ver criado.', inject([UserService], (service: UserService) => {
-    tokenService.setToken('a');
-    expect(service).toBeTruthy();
-  }));
-
-  it('deve guardar um token', () => {
-    const fakeToken = TOKEN;
-    userService.setToken(fakeToken);
-    expect(userService.isLogged()).toBeTruthy();
-    expect(userService.getUserName()).toBe('flavio');
-    userService.getUser().subscribe((user: User) => {
-      expect(user.name).toBe('flavio');
+  it('no método authenticate, deve autenticar o usuário no sistema com a senha correta.', () => {
+    const fakeAuth = 'testeToken';
+    authService.authenticate('alvaro', '123456').subscribe((response) => {
+      expect(response).toEqual(fakeAuth);
     });
-  });
 
-  it('deve limpar as informações no logout', () => {
-    userService.logout();
-    expect(userService.isLogged()).toBeFalsy();
-    expect(userService.getUserName()).toBe('');
-    userService.getUser().subscribe((user: User) => {
-      expect(user).toBeNull();
-    });
+    const req = httpMock.expectOne(
+      (request) => request.method === 'POST' && request.url === TOKEN_ENDPOINT
+    );
+    expect(req.request.method).toBe('POST');
+
+    req.flush(fakeUserInfo);
   });
 
   afterEach(() => {
-    localStorage.clear();
+    httpMock.verify();
   });
 });
