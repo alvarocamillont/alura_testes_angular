@@ -33,6 +33,8 @@ export class UserService {
   logout() {
     this.tokenService.removeToken();
     this.userSubject.next(null);
+    this.userName = '';
+    //não limpou o userName
   }
 
   isLogged() {
