@@ -45,7 +45,7 @@ describe('O serviço UserService', () => {
     userService = TestBed.get(UserService);
   });
 
-  it('de ver criado.', inject([UserService], (service: UserService) => {
+  it('deve ser criado.', inject([UserService], (service: UserService) => {
     tokenService.setToken('a');
     expect(service).toBeTruthy();
   }));

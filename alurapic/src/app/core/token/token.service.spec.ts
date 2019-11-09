@@ -17,7 +17,7 @@ describe('O serviço TokenService', () => {
     localStorage.clear();
   });
 
-  it('de ver criado.', inject([TokenService], (service: TokenService) => {
+  it('deve ser criado.', inject([TokenService], (service: TokenService) => {
     expect(service).toBeTruthy();
   }));
 

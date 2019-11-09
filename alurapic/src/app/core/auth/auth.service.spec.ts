@@ -27,32 +27,37 @@ describe('O serviço AuthService', () => {
     expect(authService).toBeTruthy();
   });
 
-  it('no método authenticate, deve autenticar o usuário no sistema com a senha correta.', () => {
-    const fakeAuth = { id: 1, name: 'flavio', email: 'flavio@alurapic.com.br' };
-    const spyUser = spyOn(userService, 'setToken').and.returnValue(null);
-    let authToken: string;
+  describe('no método authenticate', () => {
+    it('deve validar o usuário no sistema com a senha correta.', () => {
+      const fakeAuth = {
+        id: 1,
+        name: 'flavio',
+        email: 'flavio@alurapic.com.br'
+      };
+      const spyUser = spyOn(userService, 'setToken').and.returnValue(null);
+      let authToken: string;
 
-    authService.authenticate('alvaro', '123456').subscribe((response) => {
-      authToken = response.headers.get('x-access-token');
-      expect(response.body).toEqual(fakeAuth);
-      expect(authToken).toBe('tokentest');
-      expect(spyUser).toHaveBeenCalledWith(authToken);
+      authService.authenticate('alvaro', '123456').subscribe((response) => {
+        authToken = response.headers.get('x-access-token');
+        expect(response.body).toEqual(fakeAuth);
+        expect(authToken).toBe('tokentest');
+        expect(spyUser).toHaveBeenCalledWith(authToken);
+      });
+
+      const req = httpMock.expectOne(
+        (request) =>
+          request.method === 'POST' && request.url === `${API_URL}/user/login`
+      );
+      expect(req.request.method).toBe('POST');
+
+      req.flush(fakeAuth, {
+        headers: { 'x-access-token': 'tokentest' },
+        status: 200,
+        statusText: 'OK'
+      });
     });
-
-    const req = httpMock.expectOne(
-      (request) =>
-        request.method === 'POST' && request.url === `${API_URL}/user/login`
-    );
-    expect(req.request.method).toBe('POST');
-
-    req.flush(fakeAuth, {
-      headers: { 'x-access-token': 'tokentest' },
-      status: 200,
-      statusText: 'OK'
+    afterEach(() => {
+      httpMock.verify();
     });
-  });
-
-  afterEach(() => {
-    httpMock.verify();
   });
 });
