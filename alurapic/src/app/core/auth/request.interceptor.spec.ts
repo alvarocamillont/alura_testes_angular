@@ -34,41 +34,40 @@ describe('O interceptor RequestInterceptor', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('ao fazer requisições http', () => {
-    it('adiciona o token no header da requisição', () => {
-      spyOn(tokenService, 'hasToken').and.returnValue(true);
-      spyOn(tokenService, 'getToken').and.returnValue('teste');
+  it('adiciona o token no header da requisição', () => {
+    spyOn(tokenService, 'hasToken').and.returnValue(true);
+    spyOn(tokenService, 'getToken').and.returnValue('teste');
 
-      http.get('/data').subscribe((response: HttpResponse<any>) => {
-        expect(response.headers.get('x-access-token')).toBe('teste');
-      });
-
-      const req = httpMock.expectOne(
-        r => r.url === '/data'
-      );
-
-      expect(req.request.method).toEqual('GET');
-
-      req.flush({ hello: 'world' });
+    http.get('/data').subscribe((response: HttpResponse<any>) => {
+      expect(response.headers.get('x-access-token')).toBe('teste');
     });
 
-    it('não adiciona o token quando usuário não realizou o login', () => {
-      spyOn(tokenService, 'hasToken').and.returnValue(false);
+    const req = httpMock.expectOne(
+      r => r.url === '/data'
+    );
 
-      http.get('/data').subscribe((response: HttpResponse<any>) => {
-        expect(response.headers.has('x-access-token')).toBeFalsy();
-      });
+    expect(req.request.method).toEqual('GET');
 
-      const req = httpMock.expectOne(
-        r => r.url === '/data'
-      );
-      expect(req.request.method).toEqual('GET');
-
-      req.flush({ hello: 'world' });
-    });
-
-    afterEach(() => {
-      httpMock.verify();
-    });
+    req.flush({ hello: 'world' });
   });
+
+  it('não adiciona o token quando usuário não realizou o login', () => {
+    spyOn(tokenService, 'hasToken').and.returnValue(false);
+
+    http.get('/data').subscribe((response: HttpResponse<any>) => {
+      expect(response.headers.has('x-access-token')).toBeFalsy();
+    });
+
+    const req = httpMock.expectOne(
+      r => r.url === '/data'
+    );
+    expect(req.request.method).toEqual('GET');
+
+    req.flush({ hello: 'world' });
+  });
+
+  afterEach(() => {
+    httpMock.verify();
+  });
+
 });
