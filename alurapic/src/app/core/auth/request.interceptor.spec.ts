@@ -34,40 +34,41 @@ describe('O interceptor RequestInterceptor', () => {
     expect(service).toBeTruthy();
   });
 
-  it('adiciona o token no header da requisição', () => {
-    spyOn(tokenService, 'hasToken').and.returnValue(true);
-    spyOn(tokenService, 'getToken').and.returnValue('teste');
+  describe('ao fazer requisições http', () => {
+    it('adiciona o token no header da requisição', () => {
+      spyOn(tokenService, 'hasToken').and.returnValue(true);
+      spyOn(tokenService, 'getToken').and.returnValue('teste');
 
-    http.get('/data').subscribe((response: HttpResponse<any>) => {
-      expect(response.headers.get('x-access-token')).toBe('teste');
+      http.get('/data').subscribe((response: HttpResponse<any>) => {
+        expect(response.headers.get('x-access-token')).toBe('teste');
+      });
+
+      const req = httpMock.expectOne(
+        r => r.url === '/data'
+      );
+
+      expect(req.request.method).toEqual('GET');
+
+      req.flush({ hello: 'world' });
     });
 
-    const req = httpMock.expectOne(
-      r => r.url === '/data'
-    );
+    it('não adiciona o token quando usuário não realizou o login', () => {
+      spyOn(tokenService, 'hasToken').and.returnValue(false);
 
-    expect(req.request.method).toEqual('GET');
+      http.get('/data').subscribe((response: HttpResponse<any>) => {
+        expect(response.headers).toBeUndefined();
+      });
 
-    req.flush({ hello: 'world' });
-  });
+      const req = httpMock.expectOne(
+        r => r.url === '/data'
+      );
+      expect(req.request.method).toEqual('GET');
 
-  it('não adiciona o token quando usuário não realizou o login', () => {
-    spyOn(tokenService, 'hasToken').and.returnValue(false);
-
-    http.get('/data').subscribe((response: HttpResponse<any>) => {
-      expect(response.headers.has('x-access-token')).toBeFalsy();
+      req.flush({ hello: 'world' });
     });
 
-    const req = httpMock.expectOne(
-      r => r.url === '/data'
-    );
-    expect(req.request.method).toEqual('GET');
-
-    req.flush({ hello: 'world' });
+    afterEach(() => {
+      httpMock.verify();
+    });
   });
-
-  afterEach(() => {
-    httpMock.verify();
-  });
-
 });
