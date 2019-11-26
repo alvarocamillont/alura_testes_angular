@@ -1,9 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { RouterTestingModule } from "@angular/router/testing";
 
-import { PhotoComponent } from './photo.component';
+import { PhotoComponent } from "./photo.component";
 
-describe('PhotoComponent', () => {
+describe("PhotoComponent", () => {
   let component: PhotoComponent;
   let fixture: ComponentFixture<PhotoComponent>;
 
@@ -20,7 +20,17 @@ describe('PhotoComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("deve ser criado", () => {
     expect(component).toBeTruthy();
+  });
+
+  it("deve tratar a url interna.", () => {
+    component.url = "data/teste";
+    expect(component.url).toBe("data/teste");
+  });
+
+  it("deve tratar url extern, anexando o endereço da api.", () => {
+    component.url = "teste";
+    expect(component.url).toBe("http://localhost:3000/imgs/teste");
   });
 });
