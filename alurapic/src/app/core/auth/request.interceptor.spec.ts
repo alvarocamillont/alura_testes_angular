@@ -56,7 +56,7 @@ describe('O interceptor RequestInterceptor', () => {
       spyOn(tokenService, 'hasToken').and.returnValue(false);
 
       http.get('/data').subscribe((response: HttpResponse<any>) => {
-        expect(response.headers.has('x-access-token')).toBeFalsy();
+        expect(response.headers).toBeUndefined();
       });
 
       const req = httpMock.expectOne(
