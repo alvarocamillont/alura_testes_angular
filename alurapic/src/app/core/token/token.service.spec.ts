@@ -1,25 +1,19 @@
-import { inject, TestBed } from '@angular/core/testing';
-
 import { TokenService } from './token.service';
 
 describe('O serviço TokenService', () => {
   let tokenService: TokenService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [TokenService]
-    });
-
-    tokenService = TestBed.get(TokenService);
+    tokenService = new TokenService();
   });
 
   afterEach(() => {
     localStorage.clear();
   });
 
-  it('deve ser criado.', inject([TokenService], (service: TokenService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('deve ser criado.', () => {
+    expect(tokenService).toBeTruthy();
+  });
 
   it('deve guardar um token', () => {
     const fakeToken = 'teste';
