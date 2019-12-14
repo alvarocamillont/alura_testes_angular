@@ -1,15 +1,17 @@
 import { isLowerCase } from './lower-case.validator';
 
-describe("A função lowerCaseValidator", () => {
-  it("deve confirmar quando recebe um texto em minúsculo.", () => {
-    expect(isLowerCase("teste")).toBeFalsy();
+describe("A função isLowerCase", () => {
+  it("deve confirmar quando recebe um texto em caixa baixa.", () => {
+    let valor = 'mario';
+    let resultado = isLowerCase(valor);
+    expect(resultado).toBe(true);
   });
 
   it("deve validar quando for enviado um texto em branco", () => {
     expect(isLowerCase("")).toBeFalsy();
   });
 
-  it("deve validar quando for enviado um texto em maiusculo", () => {
-    expect(isLowerCase("Teste")).toBeTruthy();
+  it("deve validar quando for enviado um texto com caixa alta", () => {
+    expect(isLowerCase("Mario")).toBeFalsy();
   });
 });
