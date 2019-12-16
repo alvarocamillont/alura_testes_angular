@@ -12,7 +12,8 @@ describe('O serviço TokenService', () => {
   });
 
   it('deve ser criado.', () => {
-    expect(tokenService).toBeTruthy();
+    const service = new TokenService()
+    expect(service).toBeTruthy();
   });
 
   it('deve guardar um token', () => {
