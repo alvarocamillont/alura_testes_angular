@@ -1,32 +1,32 @@
 import { TokenService } from './token.service';
 
 describe('O serviço TokenService', () => {
-  let tokenService: TokenService;
+  let service: TokenService;
+  let fakeToken:string;
 
   beforeEach(() => {
-    tokenService = new TokenService();
+    service = new TokenService();
+    fakeToken = 'teste'
   });
 
   afterEach(() => {
     localStorage.clear();
   });
 
-  it('deve ser criado.', () => {
+  it('deve ser instanciado corretamente.', () => {
     const service = new TokenService()
     expect(service).toBeTruthy();
   });
 
   it('deve guardar um token', () => {
-    const fakeToken = 'teste';
-    tokenService.setToken(fakeToken);
-    expect(tokenService.hasToken()).toBeTruthy();
-    expect(tokenService.getToken()).toBe(fakeToken);
+    service.setToken(fakeToken);
+    expect(service.hasToken()).toBeTruthy();
+    expect(service.getToken()).toBe(fakeToken);
   });
 
   it('deve remover o token', () => {
-    const fakeToken = 'teste';
-    tokenService.setToken(fakeToken);
-    tokenService.removeToken();
-    expect(tokenService.hasToken()).toBeFalsy();
+    service.setToken(fakeToken);
+    service.removeToken();
+    expect(service.hasToken()).toBeFalsy();
   });
 });
