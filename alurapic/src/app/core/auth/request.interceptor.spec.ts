@@ -5,7 +5,7 @@ import { HttpTestingController, HttpClientTestingModule } from '@angular/common/
 import { RequestInterceptor } from './request.interceptor';
 import { TokenService } from '../token/token.service';
 
-describe('O interceptor RequestInterceptor', () => {
+xdescribe('O interceptor RequestInterceptor', () => {
   let service: RequestInterceptor;
   let http: HttpClient;
   let httpMock: HttpTestingController;
