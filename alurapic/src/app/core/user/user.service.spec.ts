@@ -6,47 +6,19 @@ import { UserService } from './user.service';
 
 const TOKEN =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImZsYXZpbyIsImVtYWlsIjoiZmxhdmlvQGFsdXJhcGljLmNvbS5iciIsImlhdCI6MTU3MjY2ODg4NSwiZXhwIjoxNTcyNzU1Mjg1fQ.kzPLFizMUFd4HLmK3gZVEQPACoz3ENjCBD9V5xxbOZI';
-class MockTokenService {
-  token = TOKEN;
-
-  hasToken() {
-    return !!this.getToken();
-  }
-
-  setToken(token: string) {
-    this.token = token;
-  }
-
-  getToken() {
-    return this.token;
-  }
-
-  removeToken() {
-    this.token = '';
-  }
-}
 
 describe('O serviço UserService', () => {
   let userService: UserService;
-  let tokenService: TokenService;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        UserService,
-        {
-          provide: TokenService,
-          useClass: MockTokenService
-        }
+        UserService
       ]
     });
-
-    tokenService = TestBed.get(TokenService);
     userService = TestBed.get(UserService);
   });
 
   it('deve ser criado.', inject([UserService], (service: UserService) => {
-    tokenService.setToken('a');
     expect(service).toBeTruthy();
   }));
 
