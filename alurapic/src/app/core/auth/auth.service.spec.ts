@@ -31,8 +31,8 @@ describe('O serviço AuthService', () => {
     it('deve validar o usuário no sistema com a senha correta.', () => {
       const fakeAuth = {
         id: 1,
-        name: 'flavio',
-        email: 'flavio@alurapic.com.br'
+        name: 'alvaro',
+        email: 'alvaro@alurapic.com.br'
       };
       const spyUser = spyOn(userService, 'setToken').and.returnValue(null);
       let authToken: string;
