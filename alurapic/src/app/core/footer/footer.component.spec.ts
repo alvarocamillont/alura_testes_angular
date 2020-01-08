@@ -1,40 +1,38 @@
-import { FooterComponent } from "./footer.component";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
-import { User } from "../user/user";
-import { UserService } from "../user/user.service";
-import { of } from "rxjs";
-import { RouterTestingModule } from "@angular/router/testing";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
-describe('FooterComponent', () => {
+import { User } from '../user/user';
+import { UserService } from '../user/user.service';
+import { FooterComponent } from './footer.component';
+
+describe("FooterComponent", () => {
   let component: FooterComponent;
   let fixture: ComponentFixture<FooterComponent>;
   let fakeUser: User;
-  let userService:UserService;
+  let userService: UserService;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [FooterComponent],
       providers: [UserService],
-      imports:[RouterTestingModule.withRoutes([])]
+      imports: [RouterTestingModule.withRoutes([])]
     }).compileComponents();
 
     fakeUser = {
-      email:'alvaro@alvaro.com',
-      id:1,
-      name:'Alvaro'
-    }
+      email: "alvaro@alvaro.com",
+      id: 1,
+      name: "Alvaro"
+    };
     userService = TestBed.get(UserService);
-    spyOn(userService,'getUser').and.returnValue(of(fakeUser));
-  }));
+    spyOn(userService, "getUser").and.returnValue(of(fakeUser));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(FooterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('deve ser criado', () => {
+  it("deve ser criado", () => {
     expect(component).toBeTruthy();
   });
-
 });
