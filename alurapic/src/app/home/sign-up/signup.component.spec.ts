@@ -15,7 +15,6 @@ describe("SignInComponent", () => {
   let signUpService: SignUpService;
   let userNotTakenValidatorService: UserNotTakenValidatorService;
   let navigateSpy: jasmine.Spy;
-  let saveLog;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -35,14 +34,6 @@ describe("SignInComponent", () => {
       "checkUserNameTaken"
     ).and.returnValue(() => of(null));
   }));
-
-  beforeEach(() => {
-    saveLog = console.log;
-  });
-
-  afterEach(() => {
-    console.log = saveLog;
-  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SignUpComponent);
@@ -66,13 +57,13 @@ describe("SignInComponent", () => {
   });
 
   it("deve realizar o log caso o serviço retorne algum erro.", () => {
-    console.log = jasmine.createSpy("log");
+    const spyLog = spyOn(console, "log");
     component.signupForm.get("email").setValue("alvaro@test.com");
     component.signupForm.get("fullName").setValue("Alvaro");
     component.signupForm.get("userName").setValue("alvaro");
     component.signupForm.get("password").setValue("123");
     spyOn(signUpService, "signup").and.returnValue(throwError("Erro"));
     component.signUp();
-    expect(console.log).toHaveBeenCalledWith("Erro");
+    expect(spyLog).toHaveBeenCalledWith("Erro");
   });
 });
