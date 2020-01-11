@@ -1,13 +1,13 @@
-import { SignUpComponent } from "./signup.component";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { ReactiveFormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
-import { VMessageModule } from "src/app/shared/componets/vmessage/vmessage.module";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of, throwError } from 'rxjs';
+import { VMessageModule } from 'src/app/shared/componets/vmessage/vmessage.module';
 
-import { of, throwError } from "rxjs";
-import { UserNotTakenValidatorService } from "./user-not-taken.validator.service";
-import { SignUpService } from "./signup.service";
+import { SignUpComponent } from './signup.component';
+import { SignUpService } from './signup.service';
+import { UserNotTakenValidatorService } from './user-not-taken.validator.service';
 
 describe("SignInComponent", () => {
   let component: SignUpComponent;
@@ -27,15 +27,15 @@ describe("SignInComponent", () => {
       providers: [SignUpService, UserNotTakenValidatorService],
       declarations: [SignUpComponent]
     }).compileComponents();
+  }));
+
+  beforeEach(() => {
     signUpService = TestBed.get(SignUpService);
     userNotTakenValidatorService = TestBed.get(UserNotTakenValidatorService);
     spyOn(
       userNotTakenValidatorService,
       "checkUserNameTaken"
     ).and.returnValue(() => of(null));
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(SignUpComponent);
     component = fixture.componentInstance;
     navigateSpy = spyOn((<any>component).router, "navigate");
